@@ -1,0 +1,10 @@
+.sidebar {
+    background: var(--bg-sidebar);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    max-width: 70vw;
+    min-width: 180px;
+    width: 320px;
+}

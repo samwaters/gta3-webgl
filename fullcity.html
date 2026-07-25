@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GTA3 Full City</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="topnav">
+    <span class="brand">GTA3 Viewer</span>
+    <a href="index.html" class="navlink">Model Viewer</a>
+    <a href="scene.html" class="navlink">Scene Viewer</a>
+    <a href="fullcity.html" class="navlink active">Full City</a>
+  </nav>
+
+  <div id="app">
+    <aside id="sidebar">
+      <div class="sidebar-header">
+        <span class="title">SETTINGS</span>
+      </div>
+
+      <div class="sidebar-actions">
+        <label class="speed-row">
+          <span>Fly speed</span>
+          <input type="range" id="fly-speed" min="0.25" max="4" step="0.25" value="1">
+          <span id="fly-speed-val" class="speed-val">1×</span>
+        </label>
+      </div>
+
+      <div class="settings-group">
+        <span class="settings-label">Overlays</span>
+        <label class="pickup-toggle">
+          <input type="checkbox" id="show-pickups"> Show Pickups
+        </label>
+        <label class="pickup-toggle">
+          <input type="checkbox" id="show-transit"> Show Transit
+        </label>
+        <label class="pickup-toggle">
+          <input type="checkbox" id="show-water"> Show Water
+        </label>
+        <label class="pickup-toggle">
+          <input type="checkbox" id="show-sky"> Show Sky
+        </label>
+      </div>
+
+      <div class="settings-group">
+        <span class="settings-label">Sky</span>
+        <label class="setting-row">
+          <span>Weather</span>
+          <select id="weather">
+            <option value="sunny">Sunny</option>
+            <option value="cloudy">Cloudy</option>
+            <option value="rainy">Rainy</option>
+            <option value="foggy">Foggy</option>
+          </select>
+        </label>
+        <label class="speed-row">
+          <span>Time</span>
+          <input type="range" id="time-of-day" min="0" max="24" step="0.25" value="12">
+          <span id="time-val" class="speed-val">12:00</span>
+        </label>
+      </div>
+    </aside>
+
+    <div id="resizer" role="separator" aria-orientation="vertical"></div>
+
+    <main id="viewport">
+      <header class="viewport-header">
+        <span id="selected-name" class="selected-name">Full City</span>
+        <span id="selected-path" class="selected-path"></span>
+        <span id="progress" class="progress"></span>
+      </header>
+      <div id="canvas-wrap">
+        <canvas id="gl-canvas"></canvas>
+        <div id="canvas-placeholder" class="canvas-placeholder">
+          <div class="ph-glyph">🏙</div>
+          <div class="ph-text">Loading the full city…</div>
+        </div>
+        <div class="controls-hint">
+          drag or <b>click</b> to look around (<b>Esc</b> release) &nbsp;·&nbsp;
+          <b>arrows</b>/<b>WASD</b> move &nbsp;·&nbsp; <b>Q</b>/<b>E</b> down/up
+          &nbsp;·&nbsp; <b>Shift</b> sprint &nbsp;·&nbsp; scroll to dolly
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="scene-renderer.js"></script>
+  <script src="fullcity-app.js"></script>
+</body>
+</html>

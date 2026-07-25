@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GTA3 Model Viewer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="topnav">
+    <span class="brand">GTA3 Viewer</span>
+    <a href="index.html" class="navlink active">Model Viewer</a>
+    <a href="scene.html" class="navlink">Scene Viewer</a>
+    <a href="fullcity.html" class="navlink">Full City</a>
+  </nav>
+
+  <div id="app">
+    <!-- ── Left panel: model browser ─────────────────────────────── -->
+    <aside id="sidebar">
+      <div class="sidebar-header">
+        <span class="title">MODELS</span>
+        <span id="model-count" class="count"></span>
+      </div>
+
+      <div class="search-bar">
+        <svg class="search-icon" viewBox="0 0 16 16" aria-hidden="true">
+          <path fill="currentColor" d="M11.7 10.3a5 5 0 1 0-1.4 1.4l3 3 1.4-1.4-3-3zM3 7a4 4 0 1 1 8 0 4 4 0 0 1-8 0z"/>
+        </svg>
+        <input type="search" id="search" placeholder="Search models…"
+               autocomplete="off" spellcheck="false">
+        <button id="search-clear" class="search-clear" title="Clear" hidden>&times;</button>
+      </div>
+
+      <div id="tree" class="tree" tabindex="0">
+        <div class="tree-message">Loading manifest…</div>
+      </div>
+    </aside>
+
+    <!-- ── Divider (drag to resize) ──────────────────────────────── -->
+    <div id="resizer" role="separator" aria-orientation="vertical"></div>
+
+    <!-- ── Right panel: WebGL viewport ───────────────────────────── -->
+    <main id="viewport">
+      <header class="viewport-header">
+        <span id="selected-name" class="selected-name">No model selected</span>
+        <span id="selected-path" class="selected-path"></span>
+      </header>
+      <div id="canvas-wrap">
+        <canvas id="gl-canvas"></canvas>
+        <div id="canvas-placeholder" class="canvas-placeholder">
+          <div class="ph-glyph">◈</div>
+          <div class="ph-text">Select a model from the left to view it here</div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="renderer.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

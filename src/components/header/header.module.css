@@ -1,0 +1,35 @@
+.header {
+    align-items: center;
+    background: #1a1a1b;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-shrink: 0;
+    gap: 4px;
+    height: 40px;
+    padding: 0 14px;
+
+    .brand {
+        color: var(--text-bright);
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        margin-right: 16px;
+    }
+
+    a {
+        border-radius: 5px;
+        color: var(--text-dim);
+        font-size: 13px;
+        padding: 6px 12px;
+        text-decoration: none;
+    }
+
+    a:hover {
+        background: var(--bg-hover);
+        color: var(--text);
+    }
+    :global(a.active) {
+        background: var(--accent);
+        color: #fff;
+    }
+}
