@@ -1,3 +1,3 @@
 export const City = () => {
-    return <p>City</p>
+  return <p>City</p>
 }

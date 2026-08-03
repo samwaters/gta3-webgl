@@ -13,7 +13,7 @@ DFF→TXD mapping from them, and reads the models straight out of gta3.img.
 Usage
 -----
 # Convert EVERYTHING, no inputs required (reads models/gta3.img + data/*.ide,
-# writes glTFs + a gta3.json manifest into ./extracted).  A full run also
+# writes glTFs + a gta3.json manifest into viewer/extracted).  A full run also
 # auto-splits models/Generic/weapons.dff, so no separate --combined step is
 # needed for the weapons:
   python gta_to_gltf.py
@@ -1625,9 +1625,9 @@ def main() -> None:
     ap.add_argument('--img',          metavar='FILE', help='.img archive')
     ap.add_argument('--img-dir',      metavar='FILE', help='.dir file paired with --img')
     ap.add_argument('--data-dir',     metavar='DIR',
-                    help='Directory to scan for .ide files (default: ./data)')
+                    help='Directory to scan for .ide files (default: <game root>/data)')
     ap.add_argument('-o', '--output', metavar='DIR',  default=None,
-                    help='Output directory (default: ./extracted)')
+                    help='Output directory (default: <game root>/viewer/extracted)')
     ap.add_argument('-f', '--filter', metavar='PATTERN',
                     help='Glob filter on model name, e.g. "ind_land*"')
     ap.add_argument('--combined', nargs='+', metavar='DFF',
@@ -1648,11 +1648,12 @@ def main() -> None:
         print('WARNING: Pillow not installed — textures will be skipped.')
         print('         pip install pillow\n')
 
-    # ── Default locations (this script lives in the game root) ─────────
-    root         = Path(__file__).resolve().parent      # …/G3
+    # ── Default locations (this script lives in <game root>/viewer/scripts) ──
+    root         = Path(__file__).resolve().parents[2]  # …/G3
+    viewer       = Path(__file__).resolve().parents[1]  # …/G3/viewer
     default_img  = root / 'models' / 'gta3.img'
     default_data = root / 'data'
-    default_out  = root / 'extracted'
+    default_out  = viewer / 'extracted'
 
     # ── Resolve the model/texture source ───────────────────────────────
     #   explicit --img  >  pre-extracted dirs  >  bundled gta3.img

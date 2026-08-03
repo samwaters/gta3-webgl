@@ -16,17 +16,17 @@ starts with `*` (end-of-file marker), and the column delimiter is inconsistent
 (commas and/or tabs, and one row is whitespace-only).  We split on any run of
 commas/whitespace and take the five numbers.
 
-This writes `extracted/water.json`:
+This writes `viewer/extracted/water.json`:
 
     { "water": [ { "level": 0.0, "xLeft": 372.0, "yBottom": -2239.0,
                    "xRight": 767.0, "yTop": -84.0 }, … ] }
 
 and extracts the water surface texture (`water_old`, 128×128, from
-`models/particle.txd`) to `extracted/water_old.png` so the scene viewer can tile
+`models/particle.txd`) to `viewer/extracted/water_old.png` so the scene viewer can tile
 it across the rectangles.
 
 Usage:
-  python water.py                       # data/water.dat + models/ → extracted/
+  python water.py                       # <root>/data/water.dat + models/ → viewer/extracted/
   python water.py --water X --txd Y -o Z
 """
 
@@ -100,14 +100,16 @@ def extract_texture(txd_path: Path, out_png: Path) -> bool:
 
 
 def main() -> None:
-    root = Path(__file__).resolve().parent
+    root   = Path(__file__).resolve().parents[2]     # …/G3
+    viewer = Path(__file__).resolve().parents[1]     # …/G3/viewer
     ap = argparse.ArgumentParser(description='Convert GTA III water.dat to water.json')
     ap.add_argument('--water', default=str(root / 'data' / 'water.dat'),
-                    help='Path to water.dat (default: data/water.dat)')
+                    help='Path to water.dat (default: <game root>/data/water.dat)')
     ap.add_argument('--txd', default=str(root / 'models' / WATER_TXD),
-                    help=f'TXD holding the water texture (default: models/{WATER_TXD})')
-    ap.add_argument('-o', '--output', default=str(root / 'extracted'),
-                    help='Output directory (default: ./extracted)')
+                    help=f'TXD holding the water texture '
+                         f'(default: <game root>/models/{WATER_TXD})')
+    ap.add_argument('-o', '--output', default=str(viewer / 'extracted'),
+                    help='Output directory (default: <game root>/viewer/extracted)')
     args = ap.parse_args()
 
     water_path = Path(args.water)

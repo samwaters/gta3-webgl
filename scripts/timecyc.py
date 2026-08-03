@@ -32,7 +32,7 @@ numbers, in this order (the file's own header documents all but the last four):
     bottomClouds R G B   fluffy-cloud bottom tint
     blur R G B A         screen blur / colour-filter tint (undocumented in-file)
 
-Output `extracted/timecyc.json`, keyed by weather, each an array of 24 hour
+Output `viewer/extracted/timecyc.json`, keyed by weather, each an array of 24 hour
 objects (index = hour, 0 = Midnight).  Grouped colours are stored as arrays:
 
     { "sunny": [ { "amb": [74,74,46], "dir": [100,100,105], "skyTop": [0,0,5],
@@ -40,7 +40,7 @@ objects (index = hour, 0 = Midnight).  Grouped colours are stored as arrays:
       "cloudy": [ … ], "rainy": [ … ], "foggy": [ … ] }
 
 Usage:
-  python timecyc.py                     # data/timecyc.dat → extracted/timecyc.json
+  python timecyc.py                     # <root>/data/timecyc.dat → viewer/extracted/timecyc.json
   python timecyc.py --timecyc X -o Y
 """
 
@@ -121,12 +121,13 @@ def parse_timecyc(path: Path) -> dict:
 
 
 def main() -> None:
-    root = Path(__file__).resolve().parent
+    root   = Path(__file__).resolve().parents[2]     # …/G3
+    viewer = Path(__file__).resolve().parents[1]     # …/G3/viewer
     ap = argparse.ArgumentParser(description='Convert GTA III timecyc.dat to timecyc.json')
     ap.add_argument('--timecyc', default=str(root / 'data' / 'timecyc.dat'),
-                    help='Path to timecyc.dat (default: data/timecyc.dat)')
-    ap.add_argument('-o', '--output', default=str(root / 'extracted'),
-                    help='Output directory (default: ./extracted)')
+                    help='Path to timecyc.dat (default: <game root>/data/timecyc.dat)')
+    ap.add_argument('-o', '--output', default=str(viewer / 'extracted'),
+                    help='Output directory (default: <game root>/viewer/extracted)')
     args = ap.parse_args()
 
     tc_path = Path(args.timecyc)

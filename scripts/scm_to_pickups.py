@@ -6,7 +6,7 @@ GTA III does not place pickups (weapons, health, packages) through the IPL
 files — their `pick` sections are empty.  Instead the mission script
 (`data/main.scm`, compiled bytecode) creates them at load time with the
 pickup opcodes.  This script scans the SCM for those opcodes and writes the
-model + world position of each pickup to `extracted/pickups.json`.
+model + world position of each pickup to `viewer/extracted/pickups.json`.
 
 Opcodes read (GTA III):
   0213  CREATE_PICKUP            model, type,        X, Y, Z, →handle
@@ -29,7 +29,7 @@ and the coordinates fall inside the map — which rejects the false positives
 that arise from the opcode bytes appearing mid-instruction.
 
 Usage:
-  python scm_to_pickups.py                 # data/main.scm + extracted/ → extracted/pickups.json
+  python scm_to_pickups.py                 # <root>/data/main.scm → viewer/extracted/pickups.json
   python scm_to_pickups.py --scm X -o Y
 """
 
@@ -154,14 +154,16 @@ def extract_pickups(scm: bytes, id2name: dict[int, str]) -> list[dict]:
 
 
 def main() -> None:
-    root = Path(__file__).resolve().parent
+    root   = Path(__file__).resolve().parents[2]     # …/G3
+    viewer = Path(__file__).resolve().parents[1]     # …/G3/viewer
     ap = argparse.ArgumentParser(description='Extract pickup placements from main.scm')
     ap.add_argument('--scm', default=str(root / 'data' / 'main.scm'),
-                    help='Path to main.scm (default: data/main.scm)')
+                    help='Path to main.scm (default: <game root>/data/main.scm)')
     ap.add_argument('--data-dir', default=str(root / 'data'),
-                    help='Directory of IDE files for id→name (default: ./data)')
-    ap.add_argument('-o', '--output', default=str(root / 'extracted'),
-                    help='Output directory holding the glTFs (default: ./extracted)')
+                    help='Directory of IDE files for id→name (default: <game root>/data)')
+    ap.add_argument('-o', '--output', default=str(viewer / 'extracted'),
+                    help='Output directory holding the glTFs '
+                         '(default: <game root>/viewer/extracted)')
     args = ap.parse_args()
 
     scm_path = Path(args.scm)

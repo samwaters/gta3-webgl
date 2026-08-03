@@ -20,7 +20,7 @@ Coordinates are GTA world space (right-handed, Z-up) — the same space as the
 IPL placements — so the scene viewer applies the same Z-up→Y-up transform when
 it draws them (see Render.md).
 
-This writes `extracted/paths.json`, mapping each path to the model that runs it,
+This writes `viewer/extracted/paths.json`, mapping each path to the model that runs it,
 its ordered waypoints, and an animation speed (ms between waypoints):
 
     {
@@ -29,7 +29,7 @@ its ordered waypoints, and an animation speed (ms between waypoints):
     }
 
 Usage:
-  python paths.py                       # data/paths + extracted/ → extracted/paths.json
+  python paths.py                       # <root>/data/paths → viewer/extracted/paths.json
   python paths.py --paths-dir X -o Y
 """
 
@@ -87,12 +87,13 @@ def parse_path_file(path: Path) -> list[list[float]]:
 
 
 def main() -> None:
-    root = Path(__file__).resolve().parent
+    root   = Path(__file__).resolve().parents[2]     # …/G3
+    viewer = Path(__file__).resolve().parents[1]     # …/G3/viewer
     ap = argparse.ArgumentParser(description='Convert GTA III path files to paths.json')
     ap.add_argument('--paths-dir', default=str(root / 'data' / 'paths'),
-                    help='Directory of .dat path files (default: data/paths)')
-    ap.add_argument('-o', '--output', default=str(root / 'extracted'),
-                    help='Output directory (default: ./extracted)')
+                    help='Directory of .dat path files (default: <game root>/data/paths)')
+    ap.add_argument('-o', '--output', default=str(viewer / 'extracted'),
+                    help='Output directory (default: <game root>/viewer/extracted)')
     ap.add_argument('--speed', type=int, default=DEFAULT_SPEED,
                     help=f'ms between waypoints (default: {DEFAULT_SPEED})')
     args = ap.parse_args()

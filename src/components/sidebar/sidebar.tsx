@@ -1,7 +1,5 @@
-import styles from './sidebar.module.css';
+import styles from "./sidebar.module.css"
 
 export const Sidebar = () => {
-    return <div className={styles.sidebar}>
-
-    </div>
+  return <div className={styles.sidebar}></div>
 }

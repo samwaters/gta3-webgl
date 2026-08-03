@@ -1,6 +1,7 @@
 export const WorkerStatusEnum = {
-    IDLE: "IDLE",
-    RUNNING: "RUNNING",
+  IDLE: "IDLE",
+  RUNNING: "RUNNING",
 }
 
-export type WorkerStatus = (typeof WorkerStatusEnum)[keyof typeof WorkerStatusEnum]
+export type WorkerStatus =
+  (typeof WorkerStatusEnum)[keyof typeof WorkerStatusEnum]

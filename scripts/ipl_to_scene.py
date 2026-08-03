@@ -4,7 +4,7 @@ ipl_to_scene.py  —  Build a scene-placement manifest from GTA III IPL files
 
 Globs every .ipl under the data directory, parses its `inst` section, maps
 each placed model to its converted glTF, and writes the instance transforms
-into ./extracted/scene.json — nested by the IPL's location, mirroring
+into viewer/extracted/scene.json — nested by the IPL's location, mirroring
 gta3.json.
 
 GTA III `inst` line format (12 comma-separated columns, no flags):
@@ -18,7 +18,7 @@ verbatim (the viewer applies any Z-up→Y-up conversion to match the models).
 
 Usage
 -----
-  python ipl_to_scene.py                 # auto: data/ + extracted/
+  python ipl_to_scene.py                 # auto: <root>/data + viewer/extracted
   python ipl_to_scene.py --data-dir X -o Y
 """
 
@@ -149,13 +149,15 @@ def parse_inst(path: Path) -> list[dict]:
 # ---------------------------------------------------------------------------
 
 def main() -> None:
-    root = Path(__file__).resolve().parent
+    root   = Path(__file__).resolve().parents[2]     # …/G3
+    viewer = Path(__file__).resolve().parents[1]     # …/G3/viewer
 
     ap = argparse.ArgumentParser(description='Build scene.json from GTA III IPLs')
     ap.add_argument('--data-dir', metavar='DIR', default=str(root / 'data'),
-                    help='Directory to scan for .ipl files (default: ./data)')
-    ap.add_argument('-o', '--output', metavar='DIR', default=str(root / 'extracted'),
-                    help='Output directory holding the glTFs (default: ./extracted)')
+                    help='Directory to scan for .ipl files (default: <game root>/data)')
+    ap.add_argument('-o', '--output', metavar='DIR', default=str(viewer / 'extracted'),
+                    help='Output directory holding the glTFs '
+                         '(default: <game root>/viewer/extracted)')
     ap.add_argument('--all', action='store_true',
                     help='Include every IPL on disk, not just the gta3.dat set '
                          '(adds road IPLs, suburb duplicates, making/temppart)')
