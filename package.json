@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc -b && vite build",
+    "compress": "sh ./scripts/compress.sh",
     "extract": "sh ./scripts/extract-all.sh",
     "dev": "vite",
     "format:check": "prettier -c src",

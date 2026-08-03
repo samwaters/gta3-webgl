@@ -16,21 +16,21 @@ const fetchHandler = (response: WorkerReply) => {
 }
 
 const fetchErrorHandler = (response: WorkerReply) => {
-    console.log("fetch error handler", response)
+  console.log("fetch error handler", response)
 }
 
 const fetchProgressHandler = (response: WorkerReply) => {
-    console.log("fetch progress handler", response)
+  console.log("fetch progress handler", response)
 }
 
 WorkerPool.debug()
 
 WorkerPool.run(
-    CommandsEnum.CHECK,
-    `FOO-1`,
-    fetchHandler,
-    fetchErrorHandler,
-    fetchProgressHandler
+  CommandsEnum.CHECK,
+  `FOO-1`,
+  fetchHandler,
+  fetchErrorHandler,
+  fetchProgressHandler,
 )
 
 setTimeout(() => {

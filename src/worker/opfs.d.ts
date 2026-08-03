@@ -9,27 +9,27 @@
  */
 
 interface FileSystemReadWriteOptions {
-    at?: number
+  at?: number
 }
 
 interface FileSystemRemoveOptions {
-    recursive?: boolean
+  recursive?: boolean
 }
 
 interface FileSystemHandle {
-    // Called on the OPFS root, this clears all of OPFS in one call.
-    remove(options?: FileSystemRemoveOptions): Promise<void>
+  // Called on the OPFS root, this clears all of OPFS in one call.
+  remove(options?: FileSystemRemoveOptions): Promise<void>
 }
 
 interface FileSystemSyncAccessHandle {
-    close(): void
-    flush(): void
-    getSize(): number
-    read(buffer: ArrayBufferView, options?: FileSystemReadWriteOptions): number
-    truncate(newSize: number): void
-    write(buffer: ArrayBufferView, options?: FileSystemReadWriteOptions): number
+  close(): void
+  flush(): void
+  getSize(): number
+  read(buffer: ArrayBufferView, options?: FileSystemReadWriteOptions): number
+  truncate(newSize: number): void
+  write(buffer: ArrayBufferView, options?: FileSystemReadWriteOptions): number
 }
 
 interface FileSystemFileHandle {
-    createSyncAccessHandle(): Promise<FileSystemSyncAccessHandle>
+  createSyncAccessHandle(): Promise<FileSystemSyncAccessHandle>
 }

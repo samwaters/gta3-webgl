@@ -1,7 +1,7 @@
 import { type Commands, CommandsEnum } from "./commands"
 import type { QueueMessage, WorkerMessage, WorkerReply, Workers } from "./types"
 import { WorkerStatusEnum } from "./status"
-import {WorkerMessageTypesEnum} from "./messagetypes.ts";
+import { WorkerMessageTypesEnum } from "./messagetypes.ts"
 
 export class WorkerPool {
   private static _initialised: boolean = false
@@ -53,13 +53,13 @@ export class WorkerPool {
       return
     }
     // We need to decide what to do with it here - what type is it?
-    if(message.data.type === WorkerMessageTypesEnum.PROGRESS) {
+    if (message.data.type === WorkerMessageTypesEnum.PROGRESS) {
       // This is a progress message, do not remove the task from the queue
       queueItem.onProgress(message.data)
       return
     }
     // Otherwise call either onError or onComplete
-    if(message.data.type === WorkerMessageTypesEnum.ERROR) {
+    if (message.data.type === WorkerMessageTypesEnum.ERROR) {
       queueItem.onError(message.data)
     } else {
       queueItem.onComplete(message.data)
