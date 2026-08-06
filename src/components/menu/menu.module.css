@@ -1,6 +1,3 @@
-:root {
-    --w: min(1024px, 75vw);
-}
 .menu-wrapper {
     container-type: inline-size;
     width: 75vw;
@@ -20,8 +17,8 @@
     width: 75vw;
 }
 .logo-container {
-    padding-top: calc((1024px / var(--w)) * 40px);
-    height: calc(40 / 1024 * 100cqw + 256);
+    padding-top: calc(40 / 1024 * 100cqw);
+    height: calc((40 / 1024 * 100cqw) + 256px);
 }
 .menu-container {
     flex: 1;
