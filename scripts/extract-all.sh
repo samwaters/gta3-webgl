@@ -7,8 +7,14 @@
 #
 #   gta_to_gltf.py     models + textures  → *.gltf, *.png, gta3.json
 #   ipl_to_scene.py    world placements   → scene.json      (needs the glTFs)
+#   fonts.py           bitmap font atlases→ fonts/*.png, fonts.json
+#   frontend.py        pause-menu chrome  → frontend/*.png, frontend.json
+#   hud.py             in-play HUD art    → hud/*.png, hud.json
+#   menu.py            main-menu art      → menu/*.png, menu.json
+#   misctxd.py         mainsc/news txds   → misc/*.png, misc.json
 #   paths.py           plane/train paths  → paths.json
 #   scm_to_pickups.py  pickup placements  → pickups.json
+#   screens.py         loading screens    → loadscreens/*.png, loadscreens.json
 #   timecyc.py         time-of-day colours→ timecyc.json
 #   water.py           water planes + tex → water.json, water_old.png
 #
@@ -49,6 +55,10 @@ fi
 SCRIPTS=(
     gta_to_gltf.py
     ipl_to_scene.py
+    fonts.py
+    frontend.py
+    hud.py
+    menu.py
     misctxd.py
     paths.py
     scm_to_pickups.py
@@ -76,3 +86,17 @@ for script in "${SCRIPTS[@]}"; do
 done
 
 echo "All extractions complete in $((SECONDS - start_all))s → $OUT_DIR"
+echo
+echo "Copying loadscreen assets to public..."
+mkdir -p "$VIEWER_DIR/public/loadscreens"
+cp "$OUT_DIR/loadscreens/island_1.png" "$VIEWER_DIR/public/loadscreens"
+cp "$OUT_DIR/loadscreens/island_2.png" "$VIEWER_DIR/public/loadscreens"
+cp "$OUT_DIR/loadscreens/island_3.png" "$VIEWER_DIR/public/loadscreens"
+cp "$OUT_DIR/loadscreens/loadsc0.png" "$VIEWER_DIR/public/loadscreens"
+echo "✔ Loadscreen assets copied to $VIEWER_DIR/public"
+echo
+echo "Copying menu assets to public..."
+mkdir -p "$VIEWER_DIR/public/menu"
+cp "$OUT_DIR/menu/mainmenu24.png" "$VIEWER_DIR/public/menu/"
+cp "$OUT_DIR/menu/gtalogo128.png" "$VIEWER_DIR/public/menu/"
+echo "✔ Menu assets copied to $VIEWER_DIR/public/menu"

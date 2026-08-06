@@ -1,0 +1,10 @@
+.menuitem {
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    padding: 5px 0;
+    width: 100%;
+    &.hover {
+        background-color: rgba(81, 103, 94, 0.4);
+    }
+}

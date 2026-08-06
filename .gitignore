@@ -3,6 +3,7 @@ logs
 *.log
 pnpm-debug.log*
 
+scripts/__pycache__
 .venv
 node_modules
 dist

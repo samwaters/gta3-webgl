@@ -1566,48 +1566,6 @@ def convert_assembled(models, get_dff, get_texture, out_dir, tex_out_dir, yup):
         print(f'Output:    {out_dir.resolve()}')
 
 
-# Loose textures that no world model references but the viewer still needs, as
-# (source TXD, texture name, output PNG).  The water surface uses water_old from
-# the particle dictionary; the per-model texture pass never touches it.
-LOOSE_TEXTURES = [
-    ('particle.txd', 'water_old', 'water_old.png'),
-]
-
-
-def extract_loose_textures(archive, loose_txd_dirs, out_dir) -> None:
-    """Decode the LOOSE_TEXTURES straight to PNGs in *out_dir*.
-
-    These live in dictionaries (e.g. particle.txd) that aren't tied to any
-    converted model, so build_gltf's per-model texture export skips them.
-    """
-    if not HAS_PIL:
-        return
-
-    def read_txd(name: str) -> bytes | None:
-        for d in loose_txd_dirs:                         # loose file beside the archive
-            p = Path(d) / name
-            if p.exists():
-                return p.read_bytes()
-        return archive.read(name) if archive is not None else None
-
-    cache: dict[str, dict] = {}
-    for txd_name, tex_name, png_name in LOOSE_TEXTURES:
-        if txd_name not in cache:
-            blob = read_txd(txd_name)
-            try:
-                cache[txd_name] = parse_txd(blob) if blob else {}
-            except Exception:                            # noqa: BLE001
-                cache[txd_name] = {}
-        tex = cache[txd_name].get(tex_name.lower())
-        if tex is None:
-            print(f'  WARNING: loose texture {tex_name} not found in {txd_name}')
-            continue
-        w, h, rgba = tex
-        out = out_dir / png_name
-        Image.frombytes('RGBA', (w, h), rgba).save(out)
-        print(f'  OK    {tex_name:<12} {w}x{h}  → {png_name}')
-
-
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
@@ -1866,10 +1824,6 @@ def main() -> None:
             convert_combined([str(p) for p in auto], get_texture, out_dir,
                              tex_out_dir, root, yup=not args.no_yup,
                              verbose=args.verbose)
-
-        # Loose textures no model references (e.g. water_old for the water overlay).
-        print('\nLoose textures (auto):')
-        extract_loose_textures(archive, loose_txd_dirs, out_dir)
 
 
 if __name__ == '__main__':

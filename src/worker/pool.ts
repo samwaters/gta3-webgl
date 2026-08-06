@@ -78,6 +78,7 @@ export class WorkerPool {
     // If there's not one, we can cancel execution - the next run will start it again
     if (!nextMessage) {
       clearInterval(WorkerPool._queueRunnerId)
+      WorkerPool._queueRunnerId = -1
       return
     }
     // Now that we have a message, we need to find an available executor

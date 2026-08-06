@@ -1,0 +1,18 @@
+.loadscreen {
+    align-items: flex-end;
+    aspect-ratio: 1024 / 768;
+    background-image: url("/loadscreens/loadsc0.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+    display: flex;
+    flex-direction: row;
+    max-width: 1024px;
+    width: 75vw;
+}
+
+.progress-container {
+    height: 46px;
+    padding: 10px 30px 20px 30px;
+    width: 100%;
+}

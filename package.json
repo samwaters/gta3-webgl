@@ -6,6 +6,7 @@
   "scripts": {
     "build": "tsc -b && vite build",
     "compress": "sh ./scripts/compress.sh",
+    "create:venv": "sh ./scripts/create-venv.sh",
     "extract": "sh ./scripts/extract-all.sh",
     "dev": "vite",
     "format:check": "prettier -c src",
@@ -26,6 +27,7 @@
     "@types/react-dom": "^19.2.3",
     "@types/redux-logger": "^3.0.13",
     "@vitejs/plugin-react": "^6.0.3",
+    "clsx": "^2.1.1",
     "eslint": "^10.7.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.3",

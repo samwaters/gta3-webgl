@@ -28,18 +28,19 @@ Usage:
 """
 
 import argparse
-import json
 import re
 import sys
 from pathlib import Path
+
+import txd_common
 
 # Case-insensitive filename patterns for the two families we care about.
 _SPLASH_RE = re.compile(r'^splash([123])\.txd$', re.IGNORECASE)
 _LOADSC_RE = re.compile(r'^loadsc(\d{1,2})\.txd$', re.IGNORECASE)
 
 
-def find_targets(txd_dir: Path) -> list[tuple[str, Path, str]]:
-    """Return [(kind, path, label), …] for every SPLASH*/LOADSC* txd found."""
+def find_targets(txd_dir: Path) -> list[tuple[Path, str, dict]]:
+    """Return [(path, label, extra), …] for every SPLASH*/LOADSC* txd found."""
     targets = []
     if not txd_dir.exists():
         return targets
@@ -48,53 +49,12 @@ def find_targets(txd_dir: Path) -> list[tuple[str, Path, str]]:
             continue
         m = _SPLASH_RE.match(p.name)
         if m:
-            targets.append(('splash', p, f'island_{m.group(1)}'))
+            targets.append((p, f'island_{m.group(1)}', {'kind': 'splash'}))
             continue
         m = _LOADSC_RE.match(p.name)
         if m:
-            targets.append(('loadsc', p, f'loadsc{int(m.group(1))}'))
+            targets.append((p, f'loadsc{int(m.group(1))}', {'kind': 'loadsc'}))
     return targets
-
-
-def extract_all(targets: list[tuple[str, Path, str]], out_dir: Path) -> list[dict]:
-    """Decode every texture in every target TXD and write it as a PNG."""
-    try:
-        import gta_to_gltf as g
-    except ImportError as exc:
-        sys.exit(f'Error: cannot import gta_to_gltf ({exc})')
-    if not g.HAS_PIL:
-        sys.exit('Error: Pillow not installed; cannot write PNGs')
-    from PIL import Image
-
-    manifest = []
-    for kind, path, label in targets:
-        try:
-            txd = g.parse_txd(path.read_bytes())
-        except Exception as exc:                       # noqa: BLE001
-            print(f'  WARNING: could not parse {path.name}: {exc}')
-            continue
-        if not txd:
-            print(f'  WARNING: no textures found in {path.name}')
-            continue
-        # Almost all of these dictionaries hold exactly one texture, but
-        # handle the rare multi-texture case without clobbering filenames.
-        multi = len(txd) > 1
-        for tex_name, (w, h, rgba) in txd.items():
-            out_name = f'{label}_{tex_name}.png' if multi else f'{label}.png'
-            out_png = out_dir / out_name
-            Image.frombytes('RGBA', (w, h), bytes(rgba)).save(out_png)
-            print(f'  OK    {kind:7s} {path.name:14s} {tex_name:20s} '
-                  f'{w}x{h} -> {out_png.name}')
-            manifest.append({
-                'kind':    kind,
-                'source':  path.name,
-                'label':   label,
-                'texture': tex_name,
-                'width':   w,
-                'height':  h,
-                'file':    out_name,
-            })
-    return manifest
 
 
 def main() -> None:
@@ -116,18 +76,14 @@ def main() -> None:
     if not targets:
         sys.exit(f'Error: no SPLASH*/LOADSC* .txd files found in {txd_dir}')
 
-    splash_count = sum(1 for k, _, _ in targets if k == 'splash')
-    loadsc_count = sum(1 for k, _, _ in targets if k == 'loadsc')
+    splash_count = sum(1 for _, _, e in targets if e['kind'] == 'splash')
+    loadsc_count = sum(1 for _, _, e in targets if e['kind'] == 'loadsc')
     print(f'  Found {splash_count} splash + {loadsc_count} loadsc dictionaries')
 
-    manifest = extract_all(targets, out_dir)
-
-    manifest_path = out_dir.parent / 'loadscreens.json'
-    manifest_path.write_text(
-        json.dumps({'loadscreens': manifest}, indent=1), encoding='utf-8')
-
-    print(f'\nExtracted {len(manifest)} textures')
-    print(f'Manifest: {manifest_path.resolve()}')
+    manifest = txd_common.extract_group(targets, out_dir)
+    txd_common.report(manifest,
+                      txd_common.write_manifest(out_dir, 'loadscreens', manifest),
+                      field='kind')
 
 
 if __name__ == '__main__':

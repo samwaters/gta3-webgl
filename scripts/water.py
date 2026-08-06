@@ -36,6 +36,8 @@ import re
 import sys
 from pathlib import Path
 
+import txd_common
+
 # The water surface texture GTA III uses, and the dictionary it lives in.
 WATER_TXD     = 'particle.txd'
 WATER_TEXTURE = 'water_old'
@@ -70,35 +72,6 @@ def parse_water_dat(path: Path) -> list[dict]:
     return rects
 
 
-def extract_texture(txd_path: Path, out_png: Path) -> bool:
-    """Decode the water texture from a TXD and write it as a PNG.  Returns ok."""
-    try:
-        import gta_to_gltf as g
-    except ImportError as exc:
-        print(f'  WARNING: cannot import gta_to_gltf ({exc}); skipping texture')
-        return False
-    if not g.HAS_PIL:
-        print('  WARNING: Pillow not installed; skipping water texture')
-        return False
-    if not txd_path.exists():
-        print(f'  WARNING: {txd_path} not found; skipping water texture')
-        return False
-    try:
-        txd = g.parse_txd(txd_path.read_bytes())
-    except Exception as exc:                       # noqa: BLE001
-        print(f'  WARNING: could not parse {txd_path.name}: {exc}')
-        return False
-    tex = txd.get(WATER_TEXTURE)
-    if tex is None:
-        print(f'  WARNING: "{WATER_TEXTURE}" not in {txd_path.name}')
-        return False
-    from PIL import Image
-    w, h, rgba = tex
-    Image.frombytes('RGBA', (w, h), bytes(rgba)).save(out_png)
-    print(f'  OK    texture {WATER_TEXTURE}  {w}x{h}  → {out_png.name}')
-    return True
-
-
 def main() -> None:
     root   = Path(__file__).resolve().parents[2]     # …/G3
     viewer = Path(__file__).resolve().parents[1]     # …/G3/viewer
@@ -124,7 +97,8 @@ def main() -> None:
 
     levels = sorted({r['level'] for r in rects})
     print(f'  OK    {len(rects)} rectangles  levels={levels}')
-    extract_texture(Path(args.txd), out_dir / 'water_old.png')
+    txd_common.extract_one(Path(args.txd), WATER_TEXTURE,
+                           out_dir / 'water_old.png')
     print(f'\nOutput: {(out_dir / "water.json").resolve()}')
 
 

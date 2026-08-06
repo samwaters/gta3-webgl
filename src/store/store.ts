@@ -2,14 +2,18 @@ import { configureStore } from "@reduxjs/toolkit"
 import { createLogger } from "redux-logger"
 import createSagaMiddleware from "redux-saga"
 import { rootSaga } from "./root.saga"
+import { assetsReducer } from "./assets/assets.slice"
 import { bootstrapReducer } from "./bootstrap/bootstrap.slice"
+import { workersReducer } from "./workers/workers.slice"
 
 const sagaMiddleware = createSagaMiddleware()
 const logger = createLogger()
 
 export const store = configureStore({
   reducer: {
+    assets: assetsReducer,
     bootstrap: bootstrapReducer,
+    workers: workersReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ thunk: false }).concat(sagaMiddleware, logger),

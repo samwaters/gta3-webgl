@@ -59,11 +59,15 @@ found in `models/particle.txd`. `water.py` decodes it (via the TXD parser from
 `Extraction.md`) and writes `extracted/water_old.png` so the viewer can tile it.
 
 Because `water_old` isn't referenced by any world model, the main extractor's
-per-model texture pass never emits it. So `gta_to_gltf.py` **also** produces it
-automatically on a full run — it's listed in that script's `LOOSE_TEXTURES`
-(source TXD, texture name, output PNG) and decoded straight to
-`extracted/water_old.png`. Both scripts write the same file; running either sets
-the viewer up.
+per-model texture pass never emits it — `gta_to_gltf.py` leaves it alone
+entirely, and `water.py` is the only script that produces it. It pulls the
+single texture out via `txd_common.extract_one`, which is non-fatal: if
+`particle.txd` is missing the run still writes `water.json` and just warns
+about the texture.
+
+(`gta_to_gltf.py` used to emit this file too, via a `LOOSE_TEXTURES` allowlist,
+so a full pipeline run wrote it twice. That allowlist has been removed and
+`water.py` now owns the texture outright.)
 
 ---
 
