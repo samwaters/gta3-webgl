@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react"
 import { advanceFor, cellFor, COLUMNS, type FontAtlas } from "./atlas"
-import * as styles from "./fonts.module.css"
+import styles from "./fonts.module.css"
 
 interface Props {
     atlas: FontAtlas

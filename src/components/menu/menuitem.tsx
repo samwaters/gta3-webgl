@@ -1,4 +1,4 @@
-import * as styles from "./menuitem.module.css"
+import styles from "./menuitem.module.css"
 import { Font1 } from "../fonts/Font1"
 import { useState } from "react"
 import clsx from "clsx"

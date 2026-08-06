@@ -1,3 +1,11 @@
+:root {
+    --w: min(1024px, 75vw);
+}
+.menu-wrapper {
+    container-type: inline-size;
+    width: 75vw;
+    max-width: 1024px;
+}
 .menu {
     align-items: center;
     aspect-ratio: 1024/768;
@@ -8,26 +16,27 @@
     display: flex;
     flex-direction: column;
     max-width: 1024px;
-    padding: 0 calc((1024px / min(1024px, 75vw)) * 16px);
+    padding: 0 calc(16 / 1024 * 100cqw);
     width: 75vw;
 }
 .logo-container {
-    padding-top: calc((1024px / min(1024px, 75vw)) * 40px);
-    height: calc((1024px / min(1024px, 75vw)) * 40px + 256px);
+    padding-top: calc((1024px / var(--w)) * 40px);
+    height: calc(40 / 1024 * 100cqw + 256);
 }
 .menu-container {
     flex: 1;
+    overflow-y: scroll;
     width: 100%;
 }
 .bar-container {
     align-items: center;
     display: flex;
-    height: calc((1024px / min(1024px, 75vw)) * 65px);
+    height: calc(65 / 1024 * 100cqw);
     justify-content: flex-end;
     padding: 0 16px;
     width: 100%;
 }
 .footer {
-    height: calc((1024px / min(1024px, 75vw)) * 100px);
+    height: calc(100 / 1024 * 100cqw);
     width: 100%;
 }

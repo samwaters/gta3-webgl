@@ -1,4 +1,4 @@
-import * as styles from "./loadscreen.module.css"
+import styles from "./loadscreen.module.css"
 import { ProgressBar } from "../progressbar/progressbar"
 import {useAppSelector} from "../../store/hooks.ts";
 import {assetsSelector} from "../../store/assets/assets.slice.ts";

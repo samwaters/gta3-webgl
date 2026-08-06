@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "../../store/hooks"
 import { assetsSelector, checkAssets } from "../../store/assets/assets.slice"
 import { LoadScreen } from "../../components/loadscreen/loadscreen"
-import * as styles from "./home.module.css"
+import styles from "./home.module.css"
 import { Menu } from "../../components/menu/menu"
 
 export const Home = () => {
