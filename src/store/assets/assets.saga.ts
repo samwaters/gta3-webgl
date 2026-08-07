@@ -2,7 +2,7 @@ import { checkAssets, setDownloaded, setDownloadError, setExtracted, setExtractE
 import { END, eventChannel, type EventChannel, type SagaIterator } from "redux-saga"
 import { call, put, take, takeLeading } from "redux-saga/effects"
 import { WorkerPool } from "../../worker/pool"
-import { CommandsEnum } from "../../worker/commands"
+import { CommandsEnum, type Commands } from "../../worker/commands"
 import type { WorkerReply } from "../../worker/types"
 
 type WorkerEvent =
@@ -10,11 +10,11 @@ type WorkerEvent =
     | { kind: "ERROR"; reply: WorkerReply }
     | { kind: "PROGRESS"; reply: WorkerReply }
 
-const runWorker = (): EventChannel<WorkerEvent> => {
+const runWorker = (command: Commands, payload: any): EventChannel<WorkerEvent> => {
     return eventChannel<WorkerEvent>((emit) => {
         WorkerPool.run(
-            CommandsEnum.CHECK,
-            "",
+            command,
+            payload,
             (reply) => {
                 emit({ kind: "COMPLETE", reply });
                 emit(END)
@@ -33,7 +33,7 @@ const runWorker = (): EventChannel<WorkerEvent> => {
 }
 
 function* handleCheckAssets(): SagaIterator {
-    const channel: EventChannel<WorkerEvent> = yield call(runWorker)
+    const channel: EventChannel<WorkerEvent> = yield call(() => runWorker(CommandsEnum.CHECK, ""))
     try {
         // This loop does not run infinitely - it pauses on take(channel)
         while(true) {

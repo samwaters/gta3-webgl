@@ -5,14 +5,17 @@ import clsx from "clsx"
 
 interface Props {
     onClick?: () => void
+    selectable: boolean
     text: string
 }
 
-export const MenuItem = ({ onClick, text }: Props) => {
+export const MenuItem = ({ onClick, selectable, text }: Props) => {
     const [isHovered, setIsHovered] = useState(false)
 
     const handleOver = () => {
-        setIsHovered(true)
+        if(selectable) {
+            setIsHovered(true)
+        }
     }
     const handleOut = () => {
         setIsHovered(false)

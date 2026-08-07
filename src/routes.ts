@@ -3,8 +3,9 @@ import { Home } from "./pages/home/home"
 import { Models } from "./pages/models/models"
 import { Scenes } from "./pages/scenes/scenes"
 import { City } from "./pages/city/city"
+import { createBrowserRouter } from "react-router"
 
-export const Routes = [
+const Routes = [
   {
     path: "/",
     Component: Layout,
@@ -16,3 +17,5 @@ export const Routes = [
     ],
   },
 ]
+
+export const router = createBrowserRouter(Routes)
