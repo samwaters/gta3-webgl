@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks"
 import { clearModels, loadModels, modelsSelector, selectModel } from "../../store/models/models.slice"
 import { FolderTree } from "../../components/foldertree/foldertree"
 import { SidebarHeader } from "../../components/sidebar/header"
-import { ModelViewer } from "../../components/modelviewer/modelviewer.tsx"
+import { ModelViewer } from "../../components/modelviewer/modelviewer"
 
 export const Models = () => {
     const dispatch = useAppDispatch()

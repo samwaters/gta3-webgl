@@ -41,6 +41,7 @@
     "redux-saga": "^1.5.0",
     "typescript": "^7.0.2",
     "typescript-eslint": "^8.65.0",
-    "vite": "^8.1.5"
+    "vite": "^8.1.5",
+    "vite-plugin-mkcert": "^2.1.0"
   }
 }

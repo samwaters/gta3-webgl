@@ -6,6 +6,7 @@ import { assetsReducer } from "./assets/assets.slice"
 import { bootstrapReducer } from "./bootstrap/bootstrap.slice"
 import { menuReducer } from "./menu/menu.slice"
 import { modelsReducer } from "./models/models.slice"
+import { scenesReducer } from "./scenes/scenes.slice"
 import { workersReducer } from "./workers/workers.slice"
 
 const sagaMiddleware = createSagaMiddleware()
@@ -17,6 +18,7 @@ export const store = configureStore({
     bootstrap: bootstrapReducer,
     menu: menuReducer,
     models: modelsReducer,
+    scenes: scenesReducer,
     workers: workersReducer,
   },
   middleware: (getDefaultMiddleware) =>

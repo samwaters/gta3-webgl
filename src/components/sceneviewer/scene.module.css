@@ -1,0 +1,18 @@
+.scene {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    /* Absolutely positioned so the drawing buffer, which the renderer sizes in
+       device pixels, is out of flow and can never feed back into the layout
+       that decides how big the canvas should be. In flow, a canvas whose
+       height attribute is 2x its CSS height (any retina display) grows its
+       container every frame. */
+    canvas {
+        display: block;
+        height: 100%;
+        inset: 0;
+        position: absolute;
+        width: 100%;
+    }
+}

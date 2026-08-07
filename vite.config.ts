@@ -1,20 +1,24 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import mkcert from "vite-plugin-mkcert"
 
 // https://vite.dev/config/
 export default defineConfig({
-    plugins: [react()],
-    css: {
-        modules: {
-            localsConvention: 'camelCase'
-        }
+  plugins: [mkcert(), react()],
+  css: {
+    modules: {
+      localsConvention: "camelCase",
     },
-    worker: {
-        format: "es",
-        rolldownOptions: {
-            output: {
-                entryFileNames: "worker.js"
-            }
-        }
-    }
+  },
+  server: {
+    host: "0.0.0.0",
+  },
+  worker: {
+    format: "es",
+    rolldownOptions: {
+      output: {
+        entryFileNames: "worker.js",
+      },
+    },
+  },
 })

@@ -2,6 +2,7 @@ import { type Commands, CommandsEnum } from "./commands"
 import type { QueueMessage, WorkerMessage, WorkerReply, Workers } from "./types"
 import { WorkerStatusEnum } from "./status"
 import { WorkerMessageTypesEnum } from "./messagetypes.ts"
+import { randomUUID } from "../utils/uuid"
 
 export class WorkerPool {
   private static _initialised: boolean = false
@@ -24,7 +25,7 @@ export class WorkerPool {
       throw new Error("Invalid pool size")
     }
     for (let i = 0; i < poolSize; i++) {
-      const workerId = crypto.randomUUID()
+      const workerId = randomUUID()
       const worker = new Worker(new URL("./worker.ts", import.meta.url), {
         type: "module",
       })
@@ -116,7 +117,7 @@ export class WorkerPool {
       onComplete,
       onError,
       onProgress,
-      queueId: crypto.randomUUID(),
+      queueId: randomUUID(),
     })
     if (WorkerPool._queueRunnerId === -1) {
       WorkerPool._queueRunnerId = setInterval(WorkerPool._queueRunner, 10)
