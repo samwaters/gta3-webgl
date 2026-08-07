@@ -11,12 +11,14 @@ export const Home = () => {
 
   useEffect(() => {
     dispatch(checkAssets())
-  }, []);
+  }, [])
 
-  return <div className={styles.homepage}>
-    <div className={styles.homepageContainer}>
-      {(downloading || extracting) && <LoadScreen />}
-      {(!downloading && !extracting) && <Menu />}
+  return (
+    <div className={styles.homepage}>
+      <div className={styles.homepageContainer}>
+        {(downloading || extracting) && <LoadScreen />}
+        {!downloading && !extracting && <Menu />}
+      </div>
     </div>
-  </div>
+  )
 }

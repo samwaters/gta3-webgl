@@ -1,4 +1,4 @@
 export interface WorkersState {
-    initialised: boolean
-    poolSize: number
+  initialised: boolean
+  poolSize: number
 }

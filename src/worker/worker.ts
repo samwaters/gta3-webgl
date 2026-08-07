@@ -1,31 +1,50 @@
-import { CommandsEnum } from "./commands.ts"
-import type { WorkerMessage } from "./types.ts"
-import { fetchAssets } from "./fetch.ts"
-import { checkFileStatus } from "./check.ts"
-import { extractArchive } from "./extract.ts"
+import { CommandsEnum } from "./commands"
+import { checkFileStatus } from "./check"
+import { deleteAssets } from "./delete"
+import { extractArchive } from "./extract"
+import { fetchAssets } from "./fetch"
+import type { WorkerMessage } from "./types"
+import { getFiles } from "./files"
 
-const WorkerData = {
+interface WorkerData {
+  files?: string[]
+  id: string
+  queueId: string
+}
+
+const workerData: WorkerData = {
   id: "",
   queueId: "",
 }
 
 const handleCheck = (message: WorkerMessage) => {
-  WorkerData.queueId = message.data.queueId
-  checkFileStatus(WorkerData)
+  workerData.queueId = message.data.queueId
+  checkFileStatus(workerData)
+}
+
+const handleDelete = (message: WorkerMessage) => {
+  workerData.queueId = message.data.queueId
+  deleteAssets(workerData)
 }
 
 const handleExtract = (message: WorkerMessage) => {
-  WorkerData.queueId = message.data.queueId
-  extractArchive(WorkerData)
+  workerData.queueId = message.data.queueId
+  extractArchive(workerData)
 }
 
 const handleFetch = (message: WorkerMessage) => {
-  WorkerData.queueId = message.data.queueId
-  fetchAssets(WorkerData)
+  workerData.queueId = message.data.queueId
+  fetchAssets(workerData)
+}
+
+const handleGetFiles = (message: WorkerMessage) => {
+  workerData.queueId = message.data.queueId
+  workerData.files = message.data.payload
+  getFiles(workerData as WorkerData & { files: string })
 }
 
 const handleSetId = (message: WorkerMessage) => {
-  WorkerData.id = message.data.payload
+  workerData.id = message.data.payload
 }
 
 onmessage = (message: WorkerMessage) => {
@@ -40,11 +59,17 @@ onmessage = (message: WorkerMessage) => {
     case CommandsEnum.CHECK:
       handleCheck(message)
       break
+    case CommandsEnum.DELETE:
+      handleDelete(message)
+      break
     case CommandsEnum.EXTRACT:
       handleExtract(message)
       break
     case CommandsEnum.FETCH:
       handleFetch(message)
+      break
+    case CommandsEnum.GETFILES:
+      handleGetFiles(message)
       break
     default:
       console.error("[WORKER] Unknown message type", message.data)

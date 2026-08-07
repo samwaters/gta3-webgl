@@ -4,6 +4,7 @@ import type { RootState } from "../store"
 
 const initialState: MenuState = {
   isConfirmingDelete: false,
+  isDeleting: false,
 }
 
 const menuSlice = createSlice({
@@ -13,9 +14,12 @@ const menuSlice = createSlice({
     setConfirmingDelete(state, action: PayloadAction<boolean>) {
       state.isConfirmingDelete = action.payload
     },
+    setDeleting(state, action: PayloadAction<boolean>) {
+      state.isDeleting = action.payload
+    }
   },
 })
 
 export const menuSelector = (state: RootState) => state.menu
-export const { setConfirmingDelete } = menuSlice.actions
+export const { setConfirmingDelete, setDeleting } = menuSlice.actions
 export const menuReducer = menuSlice.reducer

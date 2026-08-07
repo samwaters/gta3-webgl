@@ -16,9 +16,21 @@ const handleRefresh = () => {
 }
 
 export const hasAssets = [
-  { onClick: () => handleNavigate("/models"), selectable: true, text: "model viewer" },
-  { onClick: () => handleNavigate("/scenes"), selectable: true, text: "scene viewer" },
-  { onClick: () => handleNavigate("/city"), selectable: true, text: "full city view" },
+  {
+    onClick: () => handleNavigate("/models"),
+    selectable: true,
+    text: "model viewer",
+  },
+  {
+    onClick: () => handleNavigate("/scenes"),
+    selectable: true,
+    text: "scene viewer",
+  },
+  {
+    onClick: () => handleNavigate("/city"),
+    selectable: true,
+    text: "full city view",
+  },
   { onClick: handleRefresh, selectable: true, text: "refresh asset status" },
-  { onClick: handleDelete, selectable: true, text: "delete assets" }
+  { onClick: handleDelete, selectable: true, text: "delete assets" },
 ]

@@ -3,11 +3,11 @@ import { advanceFor, cellFor, COLUMNS, type FontAtlas } from "./atlas"
 import styles from "./fonts.module.css"
 
 interface Props {
-    atlas: FontAtlas
-    text: string
-    color: string
-    /** Rendered height of one cell, in px. Everything else scales off it. */
-    size: number
+  atlas: FontAtlas
+  text: string
+  color: string
+  /** Rendered height of one cell, in px. Everything else scales off it. */
+  size: number
 }
 
 /**
@@ -28,44 +28,48 @@ interface Props {
  * transparent.
  */
 export const BitmapText = ({ atlas, text, color, size }: Props) => {
-    const scale = size / atlas.cellHeight
-    const cellWidth = atlas.cellWidth * scale
-    const maskSize = `${atlas.width * scale}px ${atlas.height * scale}px`
+  const scale = size / atlas.cellHeight
+  const cellWidth = atlas.cellWidth * scale
+  const maskSize = `${atlas.width * scale}px ${atlas.height * scale}px`
 
-    const glyphStyle = (char: string): CSSProperties => {
-        const cell = cellFor(char)
-        const box: CSSProperties = {
-            width: cellWidth,
-            height: size,
-            marginRight: advanceFor(atlas, cell) * scale - cellWidth,
-        }
-        if (cell === null) {
-            return box
-        }
-        const maskImage = `url(${atlas.src})`
-        const column = cell % COLUMNS
-        const row = Math.floor(cell / COLUMNS)
-        const maskPosition = `${-column * cellWidth}px ${-row * size}px`
-        return {
-            ...box,
-            maskImage,
-            maskSize,
-            maskPosition,
-            WebkitMaskImage: maskImage,
-            WebkitMaskSize: maskSize,
-            WebkitMaskPosition: maskPosition,
-        }
+  const glyphStyle = (char: string): CSSProperties => {
+    const cell = cellFor(char)
+    const box: CSSProperties = {
+      width: cellWidth,
+      height: size,
+      marginRight: advanceFor(atlas, cell) * scale - cellWidth,
     }
+    if (cell === null) {
+      return box
+    }
+    const maskImage = `url(${atlas.src})`
+    const column = cell % COLUMNS
+    const row = Math.floor(cell / COLUMNS)
+    const maskPosition = `${-column * cellWidth}px ${-row * size}px`
+    return {
+      ...box,
+      maskImage,
+      maskSize,
+      maskPosition,
+      WebkitMaskImage: maskImage,
+      WebkitMaskSize: maskSize,
+      WebkitMaskPosition: maskPosition,
+    }
+  }
 
-    return (
-        <div className={styles.text} style={{ color }} role="img" aria-label={text}>
-            {text.split("\n").map((line, lineIndex) => (
-                <div className={styles.line} key={lineIndex}>
-                    {[...line].map((char, index) => (
-                        <div className={styles.glyph} key={index} style={glyphStyle(char)} />
-                    ))}
-                </div>
-            ))}
+  return (
+    <div className={styles.text} style={{ color }} role="img" aria-label={text}>
+      {text.split("\n").map((line, lineIndex) => (
+        <div className={styles.line} key={lineIndex}>
+          {[...line].map((char, index) => (
+            <div
+              className={styles.glyph}
+              key={index}
+              style={glyphStyle(char)}
+            />
+          ))}
         </div>
-    )
+      ))}
+    </div>
+  )
 }

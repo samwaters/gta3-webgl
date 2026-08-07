@@ -30,11 +30,14 @@
 html,
 body {
   margin: 0;
-  height: 100%;
   overflow: hidden;
   background: var(--bg-editor);
   color: var(--text);
   font-family: var(--font-ui);
   font-size: 13px;
   -webkit-font-smoothing: antialiased;
+}
+
+html, body, #root {
+  height: 100%;
 }

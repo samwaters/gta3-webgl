@@ -1,12 +1,15 @@
 import { store } from "../../../store/store"
-import { setConfirmingDelete } from "../../../store/menu/menu.slice"
+import { setConfirmingDelete, setDeleting } from "../../../store/menu/menu.slice"
+import { deleteAssets } from "../../../store/assets/assets.slice";
 
 const handleNo = () => {
-    store.dispatch(setConfirmingDelete(false))
+  store.dispatch(setConfirmingDelete(false))
 }
 
 const handleYes = () => {
-    store.dispatch(setConfirmingDelete(false))
+  store.dispatch(setDeleting(true))
+  store.dispatch(setConfirmingDelete(false))
+  store.dispatch(deleteAssets())
 }
 
 export const confirmDelete = [

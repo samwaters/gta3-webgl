@@ -1,18 +1,18 @@
 .text {
-    display: inline-flex;
-    flex-direction: column;
-    /* Each glyph box carries its own height; keep line spacing out of it. */
-    line-height: 0;
+  display: inline-flex;
+  flex-direction: column;
+  /* Each glyph box carries its own height; keep line spacing out of it. */
+  line-height: 0;
 }
 
 .line {
-    display: flex;
+  display: flex;
 }
 
 .glyph {
-    flex: none;
-    /* The fill the atlas is masking; .text sets currentColor from its prop. */
-    background-color: currentColor;
-    mask-repeat: no-repeat;
-    -webkit-mask-repeat: no-repeat;
+  flex: none;
+  /* The fill the atlas is masking; .text sets currentColor from its prop. */
+  background-color: currentColor;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
 }
